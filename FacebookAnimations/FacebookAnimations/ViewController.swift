@@ -12,7 +12,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
 
+    @IBAction func liveStreamAnimation(_ sender: UIButton) {
         for _ in 0..<30 {
             view.addSubview(createEmoji(random: CGFloat(drand48())))
         }
@@ -45,7 +47,9 @@ class ViewController: UIViewController {
     func emojiAnimation(random: CGFloat) -> CAKeyframeAnimation {
         let animation = CAKeyframeAnimation(keyPath: "position")
         animation.duration = 2 + drand48()*3
+        animation.fillMode = .forwards
         animation.isRemovedOnCompletion = false
+        animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
         animation.path = animationPath(random: random).cgPath
 
         return animation
@@ -55,13 +59,13 @@ class ViewController: UIViewController {
         let path = UIBezierPath()
 
         let basicY: CGFloat = 200
-        let initialPoint = CGPoint(x: 0, y: basicY)
+        let initialPoint = CGPoint(x: -50, y: basicY)
         path.move(to: initialPoint)
 
         let finalX = UIScreen.main.bounds.maxX + 50
         let finalPoint = CGPoint(x: finalX, y: basicY)
-        let cp1 = CGPoint(x: finalX/3, y: (basicY-100)-(random*100))
-        let cp2 = CGPoint(x: finalX*0.75, y: (basicY+100)+(random*100))
+        let cp1 = CGPoint(x: finalX/3, y: (basicY-200)-(random*400))
+        let cp2 = CGPoint(x: finalX*0.75, y: (basicY+200)+(random*400))
         path.addCurve(to: finalPoint, controlPoint1: cp1, controlPoint2: cp2)
         path.stroke()
         path.lineWidth = 5
